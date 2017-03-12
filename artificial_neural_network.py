@@ -43,7 +43,7 @@ class NeuralNetwork():
             adjustment = np.dot(training_set_inputs.T, error * self.__sigmoid_derivative(output))
             # Adjust the weights.
             self.synaptic_weights += adjustment
-            if (iteration % 1000 == 0):
+            if (iteration % 10000 == 0):
                 print ("error after %s iterations: %s" % (iteration, str(np.mean(np.abs(error)))))
 
     # The neural network 'thinks'
@@ -52,8 +52,17 @@ class NeuralNetwork():
         return self.__sigmoid(np.dot(inputs, self.synaptic_weights))
     
 if __name__ == "__main__":
-    training_set_inputs = np.array([[0, 0, 1], [1, 1, 1], [1, 0, 1], [0, 1, 0]])
-    training_set_outputs = np.array([[0, 1, 1, 0]]).T
+    training_set_inputs = np.array([
+            [0, 0, 0],
+            [0, 0, 1], 
+            [0, 1, 0], 
+            [1, 0, 0], 
+            [0, 1, 1],
+            [1, 1, 1],
+            [1, 1, 0]
+        ])
+    
+    training_set_outputs = np.array([[0, 0, 0, 1, 0, 1, 1]]).T
                               
     #Intialise a single neuron neural network.
     neural_network = NeuralNetwork()
@@ -70,5 +79,9 @@ if __name__ == "__main__":
 
     # Test the neural network with a new pattern
     test = [1, 0, 0]
+    print ("Considering new situation %s -> ?: " % test )
+    print (neural_network.think(np.array(test)))
+    
+    test = [0, 0, 1]
     print ("Considering new situation %s -> ?: " % test )
     print (neural_network.think(np.array(test)))
